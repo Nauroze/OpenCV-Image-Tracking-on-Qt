@@ -1,9 +1,9 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-05-30T18:42:28
-# Author: Nauroze Hoath
-#
-#-------------------------------------------------
+//#-------------------------------------------------
+//#
+//# Project created by QtCreator 2016-05-30T18:42:28
+//# Author: Nauroze Hoath
+//#
+//#-------------------------------------------------
 
 
 #include "mainwindow.h"
@@ -36,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
     moveWindow(imageWindow,100,0);
     moveWindow(hsvWindow, 1000,0);
     moveWindow(thresholdWindow, 1000,500);
-
 
 }
 
@@ -92,13 +91,9 @@ void MainWindow::Start(){
         imshow(thresholdWindow,testObject.threshold);
 
 
-
         //delay 30ms so that screen can refresh.
         waitKey(30);
     }
-
-
-
 
 
 }
@@ -113,23 +108,23 @@ string MainWindow::numberToString(int number){
 void MainWindow::drawObject(int x, int y, Mat &frame, item tempItem){
 
 
-
+    rectangle(frame,Point(x-(sideLength/2),y-(sideLength/2)), Point(x+(sideLength/2),y+(sideLength/2)),Scalar(0,255,0),2);
     //    circle(frame, Point(x, y), 20, Scalar(0, 255, 0), 2);
-    if (y - 25>0)
-        line(frame, Point(x, y), Point(x, y - 25), Scalar(0, 255, 0), 2);
-    else line(frame, Point(x, y), Point(x, 0), Scalar(0, 255, 0), 2);
-    if (y + 25<HEIGHT)
-        line(frame, Point(x, y), Point(x, y + 25), Scalar(0, 255, 0), 2);
-    else line(frame, Point(x, y), Point(x, HEIGHT), Scalar(0, 255, 0), 2);
-    if (x - 25>0)
-        line(frame, Point(x, y), Point(x - 25, y), Scalar(0, 255, 0), 2);
-    else line(frame, Point(x, y), Point(0, y), Scalar(0, 255, 0), 2);
-    if (x + 25<WIDTH)
-        line(frame, Point(x, y), Point(x + 25, y), Scalar(0, 255, 0), 2);
-    else line(frame, Point(x, y), Point(WIDTH, y), Scalar(0, 255, 0), 2);
+//    if (y - 25>0)
+//        line(frame, Point(x, y), Point(x, y - 25), Scalar(0,72, 255), 2);
+//    else line(frame, Point(x, y), Point(x, 0), Scalar(0,72, 255), 2);
+//    if (y + 25<HEIGHT)
+//        line(frame, Point(x, y), Point(x, y + 25), Scalar(0,72, 255), 2);
+//    else line(frame, Point(x, y), Point(x, HEIGHT), Scalar(0,72, 255), 2);
+//    if (x - 25>0)
+//        line(frame, Point(x, y), Point(x - 25, y), Scalar(0,72, 255), 2);
+//    else line(frame, Point(x, y), Point(0, y), Scalar(0,72, 255), 2);
+//    if (x + 25<WIDTH)
+//        line(frame, Point(x, y), Point(x + 25, y), Scalar(0,72, 255), 2);
+//    else line(frame, Point(x, y), Point(WIDTH, y), Scalar(0,72, 255), 2);
 
-    putText(frame, numberToString(x) + "," + numberToString(y), Point(x, y + 30), 1, 1, Scalar(0, 255, 0), 2);
-    putText(frame, tempItem.name , Point(x, y + 50), 1, 1, Scalar(0, 255, 0), 2);
+    putText(frame, numberToString(x) + "," + numberToString(y), Point(x, y + 30), 1, 1, Scalar(0,72, 255), 1);
+    putText(frame, tempItem.name , Point(x, y + 50), 2, 1, Scalar(0,72, 255), 1);
 }
 void MainWindow::morphObject(Mat &thresh){
 
@@ -169,7 +164,8 @@ void MainWindow::trackObject(int &x, int &y, item tempItem, Mat &cameraFeed){
             for (int index = 0; index >= 0; index = hierarchy[index][0]) {
 
                 Moments moment = moments((cv::Mat)contours[index]);
-                double area = moment.m00;
+                area = moment.m00;
+                sideLength= sqrt(area);
 
                 //if the area is less than 25 px by 25px then it is probably just noise
                 //if the area is the same as the 1/2 of the image size, probably just a bad filter
@@ -187,7 +183,6 @@ void MainWindow::trackObject(int &x, int &y, item tempItem, Mat &cameraFeed){
             }
             //let user know you found an object
             if (objectFound == true){
-                putText(cameraFeed, "Tracking", Point(0, 50), 2, 1, Scalar(0, 255, 0), 2);
                 //draw object location on screen
                 drawObject(x, y, cameraFeed, tempItem);
             }
@@ -218,4 +213,15 @@ void MainWindow::on_addButton_clicked()
 {
     objects.push_back(setUpObject(ui->nameLineEdit->text().toStdString(),H_MIN,H_MAX,S_MIN,S_MAX,V_MIN,V_MAX));
     ui->nameLineEdit->clear();
+}
+
+void MainWindow::on_defaultButton_clicked()
+{
+    ui->hminBox->setValue(0);
+    ui->hmaxBox->setValue(255);
+    ui->sminBox->setValue(0);
+    ui->smaxBox->setValue(255);
+    ui->vminBox->setValue(0);
+    ui->vmaxBox->setValue(255);
+
 }

@@ -5,4 +5,8 @@ In this program objects in a live camera feed are detected and tracked. As frame
 
 The program also allows tracking multiple objects. Each object is defined by a struct consisting all the HSV values. Each object that is to be added is given a name of the user's choice. The next time the object appears, it is tracked and the tag appears along with it.
 
+Development was done in C++ on the Qt Framework.
+
 For a tutorial on covering the fundamentals of color detection through thresholding, check out : http://opencv-srf.blogspot.ca/2010/09/object-detection-using-color-seperation.html
+
+For information on how to install OpenCV libraries into Qt Creator, check out Zahid Hasan's step-by-step guide : https://zahidhasan.wordpress.com/2014/08/19/qt-5-3-1-64-bit-mingw-windows/

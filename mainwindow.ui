@@ -160,7 +160,7 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="0" column="1" alignment="Qt::AlignLeft">
      <widget class="QLabel" name="label_7">
       <property name="text">
        <string>Adjust the HSV range until the target object is the only part of the image isolated in white.</string>
@@ -207,6 +207,13 @@
       </property>
      </widget>
     </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="defaultButton">
+      <property name="text">
+       <string> Default Settings </string>
+      </property>
+     </widget>
+    </item>
    </layout>
    <zorder>horizontalSlider_6</zorder>
    <zorder>label_6</zorder>
@@ -230,6 +237,7 @@
    <zorder>nameLineEdit</zorder>
    <zorder>addButton</zorder>
    <zorder>label_8</zorder>
+   <zorder>defaultButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

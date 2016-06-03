@@ -1,9 +1,9 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2016-05-30T18:42:28
-# Author: Nauroze Hoath
-#
-#-------------------------------------------------
+//#-------------------------------------------------
+//#
+//# Project created by QtCreator 2016-05-30T18:42:28
+//# Author: Nauroze Hoath
+//#
+//#-------------------------------------------------
 
 
 
@@ -12,7 +12,6 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
-
 #include <sstream>
 #include <string>
 #include <iostream>
@@ -36,13 +35,10 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
     //Variables to hold HSV values. (HSV = HUE, SATURATION and VALUE)
-    int H_MIN;
-    int H_MAX;
-    int S_MIN;
-    int S_MAX;
-    int V_MIN;
-    int V_MAX;
-
+    int H_MIN, H_MAX, S_MIN, S_MAX, V_MIN, V_MAX;
+    // Area and Sides of Threshold Contour
+    double area;
+    double sideLength;
     //capture frame width and height
     const int WIDTH = 640;
     const int HEIGHT = 480;
@@ -98,6 +94,8 @@ public:
 private slots:
 
     void on_addButton_clicked();
+
+    void on_defaultButton_clicked();
 
 private:
     Ui::MainWindow *ui;

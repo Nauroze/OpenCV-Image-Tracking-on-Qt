@@ -1,9 +1,9 @@
 # OpenCV Image Tracking on Qt
 <b>Real-time multi object tracking</b>
 
-In this program objects in a live camera feed are detected and tracked. As frames are passed on through the camera feed, their RGB attributes are converted into the HSV type. This provides better depth so the algorithm can understand all the different colors and their hues in the image. Through that, the min/max HSV attributes are altered until the resulting threshold image has the object of interest isolated, thereby providing a quick and responsive object tracking mechanism.
+In this program objects in a live camera feed are detected and tracked. As frames are passed through the camera feed, their RGB attributes are converted into the HSV type. This provides better depth so the algorithm can understand all the different colors and their hues in the image. Through that, the min/max HSV attributes are altered until the resulting threshold image has the object of interest isolated, thereby providing a quick and responsive object tracking mechanism.
 
-The program also allows tracking multiple objects. Each object is defined by a struct consisting all the HSV values. Each object that is to be added is given a name of the user's choice. The next time the object appears, it is tracked and the tag appears along with it.
+The program also allows tracking multiple objects by storing their attributes in a container. Each object that is to be added is given a name of the user's choice and their corresponding HSV attributes are collected in a struct. The next time the object appears, it is tracked and the tag appears along with it.
 
 Development was done in C++ on the Qt Framework.
 

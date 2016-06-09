@@ -107,21 +107,7 @@ string MainWindow::numberToString(int number){
 }
 void MainWindow::drawObject(int x, int y, Mat &frame, item tempItem){
 
-
     rectangle(frame,Point(x-(sideLength/2),y-(sideLength/2)), Point(x+(sideLength/2),y+(sideLength/2)),Scalar(0,255,0),2);
-    //    circle(frame, Point(x, y), 20, Scalar(0, 255, 0), 2);
-//    if (y - 25>0)
-//        line(frame, Point(x, y), Point(x, y - 25), Scalar(0,72, 255), 2);
-//    else line(frame, Point(x, y), Point(x, 0), Scalar(0,72, 255), 2);
-//    if (y + 25<HEIGHT)
-//        line(frame, Point(x, y), Point(x, y + 25), Scalar(0,72, 255), 2);
-//    else line(frame, Point(x, y), Point(x, HEIGHT), Scalar(0,72, 255), 2);
-//    if (x - 25>0)
-//        line(frame, Point(x, y), Point(x - 25, y), Scalar(0,72, 255), 2);
-//    else line(frame, Point(x, y), Point(0, y), Scalar(0,72, 255), 2);
-//    if (x + 25<WIDTH)
-//        line(frame, Point(x, y), Point(x + 25, y), Scalar(0,72, 255), 2);
-//    else line(frame, Point(x, y), Point(WIDTH, y), Scalar(0,72, 255), 2);
 
     putText(frame, numberToString(x) + "," + numberToString(y), Point(x, y + 30), 1, 1, Scalar(0,72, 255), 1);
     putText(frame, tempItem.name , Point(x, y + 50), 2, 1, Scalar(0,72, 255), 1);
@@ -130,15 +116,12 @@ void MainWindow::morphObject(Mat &thresh){
 
     //create structuring element that will be used to "dilate" and "erode" image.
     //the element chosen here is a 3px by 3px rectangle
-
     Mat erodeElement = getStructuringElement(MORPH_RECT, Size(3, 3));
     //dilate with larger element so make sure object is nicely visible
     Mat dilateElement = getStructuringElement(MORPH_RECT, Size(8, 8));
 
     erode(thresh, thresh, erodeElement);
     erode(thresh, thresh, erodeElement);
-
-
     dilate(thresh, thresh, dilateElement);
     dilate(thresh, thresh, dilateElement);
 

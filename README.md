@@ -9,6 +9,6 @@ Development was done in C++ on the Qt Framework.
 
 For a tutorial on covering the fundamentals of color detection through thresholding, check out : http://opencv-srf.blogspot.ca/2010/09/object-detection-using-color-seperation.html
 
-For information on how to install OpenCV libraries into Qt Creator, check out Zahid Hasan's step-by-step guide : https://zahidhasan.wordpress.com/2014/08/19/qt-5-3-1-64-bit-mingw-windows/
+For information on how to install OpenCV libraries, check out Zahid Hasan's step-by-step guide : https://medium.com/@sourabhjigjinni/install-opencv-4-0-0-for-c-windows-7-10-code-blocks-tdm-gcc-64-dff65addf162
 
 Video Demo: https://www.youtube.com/watch?v=SmeCGUqQ3qY

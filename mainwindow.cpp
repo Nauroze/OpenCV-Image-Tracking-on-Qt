@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //open capture object at location zero (default location for webcam)
     capture.open(0);
     //set height and width of capture frame
-    capture.set(CV_CAP_PROP_FRAME_WIDTH, WIDTH);
-    capture.set(CV_CAP_PROP_FRAME_HEIGHT, HEIGHT);
+    capture.set(CAP_PROP_FRAME_WIDTH, WIDTH);
+    capture.set(CAP_PROP_FRAME_HEIGHT, HEIGHT);
 
     namedWindow(imageWindow);
     namedWindow(hsvWindow);
@@ -54,7 +54,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::Start(){
 
     while (true){
@@ -69,42 +68,36 @@ void MainWindow::Start(){
         V_MIN = ui->vminBox->text().toInt();
         V_MAX = ui->vmaxBox->text().toInt();
 
-
-        capture.read(cameraFeed);
+        capture.read(cameraFeed_Mat);
         testObject.name="Default";
-        cvtColor(cameraFeed,HSV, COLOR_BGR2HSV);
-        inRange(HSV, Scalar(H_MIN, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), testObject.threshold);
+        cvtColor(cameraFeed_Mat,HSV_Mat, COLOR_BGR2HSV);
+        inRange(HSV_Mat, Scalar(H_MIN, S_MIN, V_MIN), Scalar(H_MAX, S_MAX, V_MAX), testObject.threshold);
         morphObject(testObject.threshold);
-        trackObject(x, y, testObject, cameraFeed);
-
+        trackObject(track_x, track_y, testObject, cameraFeed_Mat);
 
         for (unsigned int i = 0; i<objects.size(); i++) {
 
-            inRange(HSV, Scalar(objects[i].H_MIN, objects[i].S_MIN, objects[i].V_MIN), Scalar(objects[i].H_MAX, objects[i].S_MAX, objects[i].V_MAX), objects[i].threshold);
+            inRange(HSV_Mat, Scalar(objects[i].H_MIN, objects[i].S_MIN, objects[i].V_MIN), Scalar(objects[i].H_MAX, objects[i].S_MAX, objects[i].V_MAX), objects[i].threshold);
             morphObject(objects[i].threshold);
-            trackObject(x, y, objects[i], cameraFeed);
+            trackObject(track_x, track_y, objects[i], cameraFeed_Mat);
         }
 
-
-        imshow(imageWindow, cameraFeed);
-        imshow(hsvWindow, HSV);
+        imshow(imageWindow, cameraFeed_Mat);
+        imshow(hsvWindow, HSV_Mat);
         imshow(thresholdWindow,testObject.threshold);
-
 
         //delay 30ms so that screen can refresh.
         waitKey(30);
     }
-
-
 }
 
 string MainWindow::numberToString(int number){
-
 
     std::stringstream ss;
     ss << number;
     return ss.str();
 }
+
 void MainWindow::drawObject(int x, int y, Mat &frame, item tempItem){
 
     rectangle(frame,Point(x-(sideLength/2),y-(sideLength/2)), Point(x+(sideLength/2),y+(sideLength/2)),Scalar(0,255,0),2);
@@ -112,6 +105,7 @@ void MainWindow::drawObject(int x, int y, Mat &frame, item tempItem){
     putText(frame, numberToString(x) + "," + numberToString(y), Point(x, y + 30), 1, 1, Scalar(0,72, 255), 1);
     putText(frame, tempItem.name , Point(x, y + 50), 2, 1, Scalar(0,72, 255), 1);
 }
+
 void MainWindow::morphObject(Mat &thresh){
 
     //create structuring element that will be used to "dilate" and "erode" image.
@@ -124,10 +118,8 @@ void MainWindow::morphObject(Mat &thresh){
     erode(thresh, thresh, erodeElement);
     dilate(thresh, thresh, dilateElement);
     dilate(thresh, thresh, dilateElement);
-
-
-
 }
+
 void MainWindow::trackObject(int &x, int &y, item tempItem, Mat &cameraFeed){
 
     Mat temp;
@@ -136,7 +128,7 @@ void MainWindow::trackObject(int &x, int &y, item tempItem, Mat &cameraFeed){
     vector< vector<Point> > contours;
     vector<Vec4i> hierarchy;
     //find contours of filtered image using openCV findContours function
-    findContours(temp, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+    findContours(temp, contours, hierarchy, RETR_CCOMP, CHAIN_APPROX_SIMPLE);
     //use moments method to find our filtered object
     double refArea = 0;
     bool objectFound = false;
@@ -161,8 +153,6 @@ void MainWindow::trackObject(int &x, int &y, item tempItem, Mat &cameraFeed){
                     refArea = area;
                 }
                 else objectFound = false;
-
-
             }
             //let user know you found an object
             if (objectFound == true){
@@ -189,7 +179,6 @@ MainWindow::item MainWindow::setUpObject(string name, int hmin, int hmax, int sm
     temp.V_MAX = vmax;
 
     return temp;
-
 }
 
 void MainWindow::on_addButton_clicked()
